@@ -1,3 +1,5 @@
+package gfx;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -5,12 +7,12 @@ import java.awt.image.BufferedImage;
 /// that wishes to draw stuff to the screen
 /// (draw to a buffer, which is drawn to the screen)
 /// provides commonly-used functions that modify the buffer
-public class DrawingTools
+public class DrawableTools
 {
 	// the buffer that is drawn to the screen after the programmer messes with it
 	private BufferedImage buffer;
 
-	public DrawingTools(BufferedImage buffer)
+	public DrawableTools(BufferedImage buffer)
 	{
 		this.buffer = buffer;
 	}

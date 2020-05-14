@@ -1,3 +1,5 @@
+package gfx;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -8,22 +10,15 @@ import java.util.List;
 /// draws stuff to screen
 public class Renderer
 {
-	/// pieces of code that edit the buffer before it is drawn to the screen
-	@FunctionalInterface
-	interface Drawable
-	{
-		void draw(DrawingTools buf);
-	}
-
 	private BufferedImage buffer;
 	private List<Drawable> drawables;
-	private DrawingTools tools;
+	private DrawableTools tools;
 
 	public Renderer(int baseWidth, int baseHeight)
 	{
 		buffer = new BufferedImage(baseWidth, baseHeight, BufferedImage.TYPE_INT_ARGB);
 		drawables = new ArrayList();
-		tools = new DrawingTools(buffer);
+		tools = new DrawableTools(buffer);
 
 		// clear the buffer with a white background
 		addDrawable(tools -> {

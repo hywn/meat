@@ -1,3 +1,6 @@
+import gfx.GamePanel;
+import gfx.Renderer;
+
 import java.awt.*;
 
 /// the game in the highest sense
