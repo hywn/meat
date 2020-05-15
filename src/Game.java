@@ -9,38 +9,31 @@ import java.awt.*;
 /// (manages the game window)
 public class Game implements Runnable
 {
+	public static final int // questionable coding practice
+		BUFFER_WIDTH = 128,
+		BUFFER_HEIGHT = 64;
+
 	private Frame frame;
 	private Panel panel;
 
+	private Renderer renderer;
+	private UserInput input;
+	private State currState;
+
 	public Game()
 	{
-		Renderer renderer = new Renderer(128, 64);
-		UserInput input = new UserInput();
+		renderer = new Renderer(BUFFER_WIDTH, BUFFER_HEIGHT);
+		input = new UserInput(this);
+		currState = new MainMenuState(this);
 
 		panel = new GamePanel(renderer);
 		frame = new Frame();
 
 		panel.addMouseMotionListener(input);
+		panel.addMouseListener(input);
+		panel.addKeyListener(input); // NOTE: need to first click in window to get Panel's focus... not very cool!
 
-		renderer.addDrawable(tools -> {
-
-			Graphics2D g2d = tools.getGraphics();
-
-			int mX = (int) ((double) input.getMX() / panel.getWidth() * tools.getBufferWidth());
-			int mY = (int) ((double) input.getMY() / panel.getHeight() * tools.getBufferHeight());
-
-			var dull = Color.RED;
-			var bright = new Color(255, 0, 255);
-
-			if (10 <= mX && mX < 20 && 10 <= mY && mY < 15) {
-				g2d.setColor(bright);
-				g2d.fillRect(9, 9, 12, 7);
-			} else {
-				g2d.setColor(dull);
-				g2d.fillRect(10, 10, 10, 5);
-			}
-
-		});
+		renderer.addDrawable(currState);
 
 		frame.setLocationRelativeTo(null);
 		frame.addWindowListener(new GameWindowListener());
@@ -66,5 +59,30 @@ public class Game implements Runnable
 			}
 
 		}
+	}
+
+	public void setCurrState(State currState)
+	{
+		this.currState = currState;
+	}
+
+	public Panel getPanel()
+	{
+		return panel;
+	}
+
+	public Renderer getRenderer()
+	{
+		return renderer;
+	}
+
+	public State getCurrState()
+	{
+		return currState;
+	}
+
+	public UserInput getInput()
+	{
+		return input;
 	}
 }

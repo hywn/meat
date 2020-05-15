@@ -1,22 +1,23 @@
 package gfx;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
 /// draws stuff to screen
 public class Renderer
 {
-	private BufferedImage buffer;
 	private List<Drawable> drawables;
 	private DrawableTools tools;
 
 	public Renderer(int baseWidth, int baseHeight)
 	{
-		buffer = new BufferedImage(baseWidth, baseHeight, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage buffer = new BufferedImage(baseWidth, baseHeight, BufferedImage.TYPE_INT_ARGB);
 		drawables = new ArrayList();
 		tools = new DrawableTools(buffer);
 
@@ -36,6 +37,8 @@ public class Renderer
 			d.draw(tools);
 
 		// display buffer (stretches to given width, height)
+
+		BufferedImage buffer = tools.getBuffer();
 
 		double scaleX = (double) width / buffer.getWidth();
 		double scaleY = (double) height / buffer.getHeight();
@@ -60,5 +63,15 @@ public class Renderer
 	public void addDrawable(Drawable drawable)
 	{
 		drawables.add(drawable);
+	}
+
+	public void removeDrawable(Drawable drawable)
+	{
+		drawables.remove(drawable);
+	}
+
+	public DrawableTools getTools()
+	{
+		return tools;
 	}
 }
