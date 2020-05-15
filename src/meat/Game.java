@@ -1,5 +1,9 @@
-import gfx.GamePanel;
-import gfx.Renderer;
+package meat;
+
+import meat.gfx.GamePanel;
+import meat.gfx.Renderer;
+import meat.state.MainMenuState;
+import meat.state.State;
 
 import java.awt.*;
 

@@ -1,6 +1,7 @@
-import gfx.Drawable;
-import gfx.DrawableTools;
-import gfx.Renderer;
+package meat.gfx;
+
+import meat.gfx.Drawable;
+import meat.gfx.DrawableTools;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,7 +24,7 @@ public class PhysicalGraphic implements Drawable
 	@Override
 	public void draw(DrawableTools tools)
 	{
-		tools.drawImage(tools.getBuffer(), x, y);
+		tools.drawImage(myTools.getBuffer(), x, y);
 	}
 
 	public boolean intersects(int bX, int bY)

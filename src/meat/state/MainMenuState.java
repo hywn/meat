@@ -1,5 +1,11 @@
-import gfx.DrawableFont;
-import gfx.DrawableTools;
+package meat.state;
+
+import meat.Game;
+import meat.gfx.PhysicalGraphic;
+import meat.UserInput;
+import meat.gfx.DrawableFont;
+import meat.gfx.DrawableTools;
+import meat.gfx.Util;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -34,14 +40,19 @@ public class MainMenuState extends State
 		var bt = button.getTools();
 		var bg = bt.getGraphics();
 
+		var butText = DrawableFont.CAPS_57.renderString("START GAME");
+		//var butGraphics = new BufferedImage(butText.getWidth() + 4, butText.getHeight() + 4, BufferedImage.TYPE_INT_ARGB);
+
+		tools.drawImage(butText, 0, 0);
+
 		if (button.intersects((int) input.getBX(), (int) input.getBY())) {
-			System.out.println("lol");
-			//	bg.setColor(Color.YELLOW);
-			//	bg.fillRect(0, 0, bt.getBufferWidth(), bt.getBufferHeight());
+			bg.setColor(Color.YELLOW);
+			bg.fillRect(0, 0, bt.getBufferWidth(), bt.getBufferHeight());
 		} else {
-			System.out.println(bt.getBufferWidth());
-			//	bg.setColor(Color.RED);
-			//	bg.fillRect(1, 1, bt.getBufferWidth() - 1, bt.getBufferHeight() - 1);
+			bg.setBackground(Util.COLOR_CLEAR);
+			bg.clearRect(0, 0, bt.getBufferWidth(), bt.getBufferHeight());
+			bg.setColor(Color.RED);
+			bg.fillRect(1, 1, bt.getBufferWidth() - 2, bt.getBufferHeight() - 2);
 		}
 
 		button.draw(tools);

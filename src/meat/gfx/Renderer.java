@@ -1,11 +1,9 @@
-package gfx;
+package meat.gfx;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,3 +1,5 @@
+package meat;
+
 import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -5,7 +7,7 @@ import java.util.Map;
 /// the all-knowing input listener that
 /// keeps track of mouse position
 /// keeps track of downed keys
-/// gives input over to the given Game
+/// gives input over to the given meat.Game
 /// NOTE: should be placed on the main Panel, not Frame (to get game-relevant mouse data)
 public class UserInput implements MouseListener, MouseMotionListener, KeyListener
 {
@@ -16,7 +18,7 @@ public class UserInput implements MouseListener, MouseMotionListener, KeyListene
 	// downed keys
 	Map<Integer, Boolean> keys;
 
-	// the StateManager that this UserInput gives its input to
+	// the StateManager that this meat.UserInput gives its input to
 	private Game game;
 
 	public UserInput(Game game)

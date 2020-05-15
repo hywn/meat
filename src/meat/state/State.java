@@ -1,5 +1,7 @@
-import gfx.Drawable;
-import gfx.DrawableTools;
+package meat.state;
+
+import meat.Game;
+import meat.gfx.Drawable;
 
 import java.awt.event.*;
 

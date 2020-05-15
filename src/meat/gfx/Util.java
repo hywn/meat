@@ -1,6 +1,7 @@
-package gfx;
+package meat.gfx;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -9,6 +10,7 @@ import java.io.IOException;
 public class Util
 {
 	public static final AffineTransformOp IDENTITY_TRANSFORM = new AffineTransformOp(new AffineTransform(), AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+	public static final Color COLOR_CLEAR = new Color(0, 0, 0, 0);
 
 	public static BufferedImage loadImage(String resPath)
 	{

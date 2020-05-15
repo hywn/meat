@@ -1,8 +1,8 @@
-package gfx;
+package meat.gfx;
 
 import java.awt.*;
 
-/// a special Panel that only draws a given gfx.Renderer's buffer
+/// a special Panel that only draws a given meat.gfx.Renderer's buffer
 public class GamePanel extends Panel
 {
 	Renderer renderer;
