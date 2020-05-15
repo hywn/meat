@@ -1,16 +1,16 @@
 package meat.gfx;
 
-import meat.gfx.Drawable;
-import meat.gfx.DrawableTools;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/// a buffer that 'takes up space'
+/// based on its transparent pixels
+/// TODO: intersects(PhysicalGraphic otherGraphic)
 public class PhysicalGraphic implements Drawable
 {
+	// the X and Y coordinates of this PhysicalGraphic in terms of some larger buffer of existence
 	private int x, y;
 
-	DrawableTools bufferTools;
 	DrawableTools myTools;
 
 	public PhysicalGraphic(BufferedImage myBuffer, int x, int y)
@@ -27,6 +27,14 @@ public class PhysicalGraphic implements Drawable
 		tools.drawImage(myTools.getBuffer(), x, y);
 	}
 
+	/**
+	 * does this PhysicalGraphic take up space in the larger buffer of existence
+	 * at the given X, Y coords?
+	 *
+	 * @param bX buffer X coord
+	 * @param bY buffer Y coord
+	 * @return if it takes up space at the given coords
+	 */
 	public boolean intersects(int bX, int bY)
 	{
 		int myX = bX - x;

@@ -1,5 +1,9 @@
 package meat;
 
+import meat.gfx.GamePanel;
+
+import java.awt.*;
+
 public class Main
 {
 	/**
@@ -12,5 +16,18 @@ public class Main
 		Game game = new Game();
 
 		new Thread(game).start();
+
+		Panel panel = game.getPanel();
+
+		new Thread(() -> {
+			while (true) {
+				panel.repaint();
+				try {
+					Thread.sleep(6); // render very fast
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 }

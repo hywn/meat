@@ -14,6 +14,8 @@ public abstract class State implements Drawable, MouseMotionListener, MouseListe
 		this.game = game;
 	}
 
+	public abstract void update();
+
 	protected Game getGame()
 	{
 		return game;

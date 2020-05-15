@@ -2,7 +2,7 @@ package meat;
 
 import meat.gfx.GamePanel;
 import meat.gfx.Renderer;
-import meat.state.MainMenuState;
+import meat.state.menu.MainMenuState;
 import meat.state.State;
 
 import java.awt.*;
@@ -14,8 +14,8 @@ import java.awt.*;
 public class Game implements Runnable
 {
 	public static final int // questionable coding practice
-		BUFFER_WIDTH = 128,
-		BUFFER_HEIGHT = 64;
+		BUFFER_WIDTH = 160,
+		BUFFER_HEIGHT = 90;
 
 	private Frame frame;
 	private Panel panel;
@@ -41,23 +41,43 @@ public class Game implements Runnable
 
 		frame.setLocationRelativeTo(null);
 		frame.addWindowListener(new GameWindowListener());
-		frame.setSize(800, 500);
+		frame.setSize(1280, 720); // NOTE: this includes the title bar... not cool! remove in future.
 		frame.add(panel);
 		frame.setVisible(true);
 	}
 
+	private final int
+		TARGET_FPS = 120,
+		TARGET_TPS = 120;
+
 	/**
 	 * the game loop that controls everything
+	 * attempts to run current state at a constant ticks-per-second rate (given above)
 	 */
 	@Override
 	public void run()
 	{
+		double NS_PER_TICK = 1000000000 / TARGET_TPS;
+		long MS_PER_TICK = 1000 / TARGET_TPS;
+
+		double missed_ticks = 0;
+		long lastTime = System.nanoTime();
+
 		while (true) {
 
-			panel.repaint();
+			long now = System.nanoTime();
+
+			missed_ticks += (now - lastTime) / NS_PER_TICK;
+
+			while (missed_ticks >= 1) {
+				currState.update();
+				missed_ticks -= 1;
+			}
+
+			lastTime = now;
 
 			try {
-				Thread.sleep(17);
+				Thread.sleep(MS_PER_TICK);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

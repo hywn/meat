@@ -1,23 +1,22 @@
-package meat.state;
+package meat.state.menu;
 
 import meat.Game;
-import meat.gfx.PhysicalGraphic;
 import meat.UserInput;
-import meat.gfx.DrawableFont;
 import meat.gfx.DrawableTools;
-import meat.gfx.Util;
+import meat.state.GameState;
+import meat.state.State;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenuState extends State
 {
 	private final UserInput input;
-	PhysicalGraphic button;
+
+	MenuButton startBut;
 
 	public MainMenuState(Game game)
 	{
@@ -25,43 +24,40 @@ public class MainMenuState extends State
 
 		input = game.getInput();
 
-		var butText = DrawableFont.CAPS_57.renderString("START GAME");
-		var butGraphics = new BufferedImage(butText.getWidth() + 4, butText.getHeight() + 4, BufferedImage.TYPE_INT_ARGB);
-
-		butGraphics.setRGB(0, 0, Color.BLACK.getRGB());
-
-		button = new PhysicalGraphic(butGraphics, 10, 10);
-
+		startBut = new MenuButton("START GAME", 10, 10);
 	}
 
 	@Override
 	public void draw(DrawableTools tools)
 	{
-		var bt = button.getTools();
-		var bg = bt.getGraphics();
+		startBut.updateHover((int) input.getBX(), (int) input.getBY());
+		startBut.draw(tools);
 
-		var butText = DrawableFont.CAPS_57.renderString("START GAME");
-		//var butGraphics = new BufferedImage(butText.getWidth() + 4, butText.getHeight() + 4, BufferedImage.TYPE_INT_ARGB);
-
-		tools.drawImage(butText, 0, 0);
-
-		if (button.intersects((int) input.getBX(), (int) input.getBY())) {
-			bg.setColor(Color.YELLOW);
-			bg.fillRect(0, 0, bt.getBufferWidth(), bt.getBufferHeight());
-		} else {
-			bg.setBackground(Util.COLOR_CLEAR);
-			bg.clearRect(0, 0, bt.getBufferWidth(), bt.getBufferHeight());
-			bg.setColor(Color.RED);
-			bg.fillRect(1, 1, bt.getBufferWidth() - 2, bt.getBufferHeight() - 2);
-		}
-
-		button.draw(tools);
+		double x = 50 + Math.sin(time) * 25;
+		double y = 50 + Math.cos(time) * 25;
 
 		int color = new Color(255, 0, 255).getRGB();
+
+		var g = tools.getGraphics();
+		g.setColor(new Color(255, 0, 255));
+		g.drawOval((int) x + 10 - 5, (int) y + 10 - 5, 10, 10);
 		tools.getBuffer().setRGB((int) input.getBX(), (int) input.getBY(), color);
 
-		for (Point p : points)
-			tools.getBuffer().setRGB((int) p.x, (int) p.y, Color.BLACK.getRGB());
+		double st = (System.nanoTime() / 1000000.0) * 0.005; // ms * 0.1
+
+		double sx = 50 + Math.sin(st) * 25;
+		double sy = 50 + Math.cos(st) * 25;
+
+		int scolor = new Color(100, 255, 100).getRGB();
+		tools.getBuffer().setRGB((int) sx + 10, (int) sy + 10, scolor);
+	}
+
+	double time = 0;
+
+	@Override
+	public void update()
+	{
+		time = (System.nanoTime() / 1000000.0) * 0.005;
 	}
 
 	class Point
@@ -70,6 +66,19 @@ public class MainMenuState extends State
 	}
 
 	List<Point> points = new ArrayList<Point>();
+
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+		if (startBut.isHovered()) {
+			Game g = getGame();
+			GameState gs = new GameState(g);
+
+			g.setCurrState(gs);
+			g.getRenderer().addDrawable(gs);
+			g.getRenderer().removeDrawable(this);
+		}
+	}
 
 	@Override
 	public void mouseMoved(MouseEvent e)
