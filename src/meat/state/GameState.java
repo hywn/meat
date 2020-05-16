@@ -1,40 +1,34 @@
 package meat.state;
 
 import meat.Game;
+import meat.entity.TestBallPlayer;
 import meat.gfx.DrawableTools;
 import meat.state.menu.MainMenuState;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class GameState extends State
+public class GameState extends State implements Updatable
 {
+	TestBallPlayer test;
+
 	public GameState(Game game)
 	{
 		super(game);
-	}
 
-	private double t = 0;
+		test = new TestBallPlayer(this, 50, 50);
+		game.addUpdatable(this);
+	}
 
 	@Override
 	public void draw(DrawableTools tools)
 	{
-		t += 0.1;
-
-		double x = 20 + Math.sin(t) * 10;
-		double y = 20 + Math.cos(t) * 10;
-
-		var g2d = tools.getGraphics();
-
-		g2d.setColor(Color.BLACK);
-
-		g2d.fillOval((int) x, (int) y, 10, 10);
+		test.draw(tools);
 	}
 
 	@Override
 	public void update()
 	{
-
+		test.update();
 	}
 
 	@Override
@@ -46,6 +40,8 @@ public class GameState extends State
 
 			g.setCurrState(m);
 			g.getRenderer().addDrawable(m);
+
+			g.removeUpdatable(this);
 			g.getRenderer().removeDrawable(this);
 		}
 	}

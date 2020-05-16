@@ -7,6 +7,7 @@ import meat.gfx.Util;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/// a rectangle with text that displays a hardcoded hover effect
 public class MenuButton extends PhysicalGraphic
 {
 	private final Color
@@ -14,11 +15,10 @@ public class MenuButton extends PhysicalGraphic
 		COLOR_UNHOVERED = new Color(60, 150, 60);
 
 	/**
-	 * generate a suitable buffer that will accommodate
-	 * all MenuButton actions around the given textBuffer
+	 * generate a suitable buffer that will accommodate the hover effects
 	 *
 	 * @param textBuffer a buffer containing text
-	 * @return the created buffer
+	 * @return the suitable buffer
 	 */
 	private static BufferedImage getBlankBuffer(BufferedImage textBuffer)
 	{
@@ -28,6 +28,22 @@ public class MenuButton extends PhysicalGraphic
 	private boolean isHovered = false;
 	private final BufferedImage TEXT_BUFFER;
 
+	public MenuButton(String text, int x, int y)
+	{
+		super(getBlankBuffer(DrawableFont.CAPS_57.renderString(text)), x, y);
+
+		TEXT_BUFFER = DrawableFont.CAPS_57.renderString(text);
+
+		unhover();
+	}
+
+	/**
+	 * provide this MenuButton buffer coordinates that tell it where the mouse is hovering
+	 * so that it may display its effects accordingly
+	 *
+	 * @param bX the x-coord of the mouse (in the buffer)
+	 * @param bY the y-coord of the mouse (in the buffer)
+	 */
 	public void updateHover(int bX, int bY)
 	{
 		boolean isHovered = intersects(bX, bY);
@@ -41,6 +57,16 @@ public class MenuButton extends PhysicalGraphic
 			hover();
 		else
 			unhover();
+	}
+
+	/**
+	 * get whether this MenuButton is hovered over
+	 *
+	 * @return whether this MenuButton is hovered over
+	 */
+	public boolean isHovered()
+	{
+		return isHovered;
 	}
 
 	private void hover()
@@ -64,19 +90,5 @@ public class MenuButton extends PhysicalGraphic
 		g.setColor(COLOR_UNHOVERED);
 		g.fillRect(1, 1, t.getBufferWidth() - 2, t.getBufferHeight() - 2);
 		t.drawImage(TEXT_BUFFER, 2, 2);
-	}
-
-	public MenuButton(String text, int x, int y)
-	{
-		super(getBlankBuffer(DrawableFont.CAPS_57.renderString(text)), x, y);
-
-		TEXT_BUFFER = DrawableFont.CAPS_57.renderString(text);
-
-		unhover();
-	}
-
-	public boolean isHovered()
-	{
-		return isHovered;
 	}
 }

@@ -5,6 +5,8 @@ import meat.gfx.Drawable;
 
 import java.awt.event.*;
 
+/// represents a state of execution that takes some user input
+/// and draws something to the buffer accordingly
 public abstract class State implements Drawable, MouseMotionListener, MouseListener, KeyListener
 {
 	private Game game;
@@ -14,9 +16,7 @@ public abstract class State implements Drawable, MouseMotionListener, MouseListe
 		this.game = game;
 	}
 
-	public abstract void update();
-
-	protected Game getGame()
+	public Game getGame()
 	{
 		return game;
 	}

@@ -10,7 +10,10 @@ import java.util.List;
 /// draws stuff to screen
 public class Renderer
 {
+	// pieces of code to run each time the buffer is redrawn
 	private List<Drawable> drawables;
+
+	// tools to draw to the buffer
 	private DrawableTools tools;
 
 	public Renderer(int baseWidth, int baseHeight)
@@ -19,7 +22,7 @@ public class Renderer
 		drawables = new ArrayList();
 		tools = new DrawableTools(buffer);
 
-		// clear the buffer with a white background
+		// clear the buffer with a white background each time it is redrawn
 		addDrawable(tools -> {
 			Graphics2D g2d = tools.getGraphics();
 
@@ -28,6 +31,17 @@ public class Renderer
 		});
 	}
 
+	/**
+	 * redraw the buffer and draw it to the provided Graphics2D object
+	 * the buffer is drawn at (x, y)
+	 * the buffer is resized to the provided width and height.
+	 *
+	 * @param g2d    any Graphics2D object
+	 * @param x      x-coord to draw buffer at
+	 * @param y      y-coord to draw buffer at
+	 * @param width  width to resize buffer to
+	 * @param height height to resize buffer to
+	 */
 	public void draw(Graphics2D g2d, int x, int y, int width, int height)
 	{
 		// draw buffer

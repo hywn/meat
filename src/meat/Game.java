@@ -2,9 +2,13 @@ package meat;
 
 import meat.gfx.GamePanel;
 import meat.gfx.Renderer;
+import meat.state.Updatable;
 import meat.state.menu.MainMenuState;
 import meat.state.State;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.*;
 
 /// the game in the highest sense
@@ -17,18 +21,22 @@ public class Game implements Runnable
 		BUFFER_WIDTH = 160,
 		BUFFER_HEIGHT = 90;
 
-	private Frame frame;
-	private Panel panel;
+	private Frame frame; // frame that holds game buffer
+	private Panel panel; // panel that holds game buffer
 
-	private Renderer renderer;
-	private UserInput input;
-	private State currState;
+	private Renderer renderer; // logic that manages updates to the game buffer
+	private UserInput input;   // logic that manages user input and passes it to the current state
+	private State currState;   // currently-executed state
+
+	// what to update every tick
+	private final List<Updatable> updatables;
 
 	public Game()
 	{
+		updatables = new ArrayList();
+
 		renderer = new Renderer(BUFFER_WIDTH, BUFFER_HEIGHT);
 		input = new UserInput(this);
-		currState = new MainMenuState(this);
 
 		panel = new GamePanel(renderer);
 		frame = new Frame();
@@ -37,18 +45,20 @@ public class Game implements Runnable
 		panel.addMouseListener(input);
 		panel.addKeyListener(input); // NOTE: need to first click in window to get Panel's focus... not very cool!
 
-		renderer.addDrawable(currState);
-
 		frame.setLocationRelativeTo(null);
 		frame.addWindowListener(new GameWindowListener());
 		frame.setSize(1280, 720); // NOTE: this includes the title bar... not cool! remove in future.
 		frame.add(panel);
 		frame.setVisible(true);
+
+		currState = new MainMenuState(this);
+
+		renderer.addDrawable(currState);
 	}
 
+	// how many updates/ticks per second to run the game at
 	private final int
-		TARGET_FPS = 120,
-		TARGET_TPS = 120;
+		TARGET_TPS = 60;
 
 	/**
 	 * the game loop that controls everything
@@ -70,7 +80,8 @@ public class Game implements Runnable
 			missed_ticks += (now - lastTime) / NS_PER_TICK;
 
 			while (missed_ticks >= 1) {
-				currState.update();
+				for (Updatable u : updatables)
+					u.update();
 				missed_ticks -= 1;
 			}
 
@@ -108,5 +119,15 @@ public class Game implements Runnable
 	public UserInput getInput()
 	{
 		return input;
+	}
+
+	public void addUpdatable(Updatable updatable)
+	{
+		updatables.add(updatable);
+	}
+
+	public void removeUpdatable(Updatable updatable)
+	{
+		updatables.remove(updatable);
 	}
 }

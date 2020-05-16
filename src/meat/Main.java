@@ -19,11 +19,14 @@ public class Main
 
 		Panel panel = game.getPanel();
 
+		/* render thread */
+		// we don't really care about managing the game's FPS
+		// since the game's TPS is already managed
 		new Thread(() -> {
 			while (true) {
 				panel.repaint();
 				try {
-					Thread.sleep(6); // render very fast
+					Thread.sleep(5); // render very fast
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

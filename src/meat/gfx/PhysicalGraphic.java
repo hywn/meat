@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class PhysicalGraphic implements Drawable
 {
 	// the X and Y coordinates of this PhysicalGraphic in terms of some larger buffer of existence
-	private int x, y;
+	protected int x, y;
 
 	DrawableTools myTools;
 

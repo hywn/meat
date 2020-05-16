@@ -92,6 +92,9 @@ public class UserInput implements MouseListener, MouseMotionListener, KeyListene
 		game.getCurrState().keyReleased(e);
 	}
 
+	/**
+	 * @return the x-coord of the user's mouse in terms of the game's window
+	 */
 	public int getMX()
 	{
 		return mX;
@@ -102,16 +105,25 @@ public class UserInput implements MouseListener, MouseMotionListener, KeyListene
 		return mY;
 	}
 
+	/**
+	 * @return the y-coord of the user's mouse in terms of the game's window
+	 */
 	public double getBX()
 	{
 		return (double) mX / game.getPanel().getWidth() * Game.BUFFER_WIDTH; // questionable coding practice
 	}
 
+	/**
+	 * @return the y-coord of the user's mouse in terms of the game's buffer
+	 */
 	public double getBY()
 	{
 		return (double) mY / game.getPanel().getHeight() * Game.BUFFER_HEIGHT; // questionable coding practice
 	}
 
+	/**
+	 * @return whether the user is pressing the given keycode at the moment
+	 */
 	public boolean isDepressed(int keycode)
 	{
 		return keys.containsKey(keycode) && keys.get(keycode);
